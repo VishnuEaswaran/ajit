@@ -12,13 +12,13 @@
 array_input:
 	.word 8			! Number of elements in the array
 	.word 1			! First element
-	.word 2			! Second element
-	.word 3 		! Third element
-	.word 4			! Fourth element
-	.word 5			! fifth element
-	.word 6			! sixth  element
-	.word 7			! seventh element
-	.word 8			! eighth element
+	.word 0			! Second element
+	.word 1 		! Third element
+	.word 0			! Fourth element
+	.word 1			! fifth element
+	.word 0			! sixth  element
+	.word 1			! seventh element
+	.word 0			! eighth element
 
 ! ---------.bss---------------------
 ! the .bss section is used for data allocated (as zeroes) at run-time
