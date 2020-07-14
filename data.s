@@ -1,6 +1,6 @@
 ! --------.data-----------------
 
-	.section ".data"! the .data section is used for normal read/write data
+    .section ".data"! the .data section is used for normal read/write data
 
 ! --------.rodata-------------------
 ! the .rodata section is used for read-only data
@@ -10,11 +10,15 @@
     .global array_input
 	.align 4
 array_input:
-	.word 4			! Number of elements in the array
-	.word 1			! First element
-	.word 2			! Second element
-	.word 3			! Third element
-	.word 4			! Fourth element
+	.word 8			! Number of elements in the array
+	.word 7			! First element
+	.word 12		! Second element
+	.word 43 		! Third element
+	.word 11		! Fourth element
+	.word 76		! fifth element
+	.word 17		! sixth  element
+	.word 66		! seventh element
+	.word 5			! eighth element
 
 ! ---------.bss---------------------
 ! the .bss section is used for data allocated (as zeroes) at run-time
