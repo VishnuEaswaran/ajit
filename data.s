@@ -32,4 +32,4 @@ heap: .skip 256 ! ((8*8)*4) these many bytes
 
     .global array_output
     .align 4
-array_output: skip 32   ! (8*4) these many bytes
+array_output: .skip 32   ! (8*4) these many bytes
