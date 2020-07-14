@@ -11,14 +11,14 @@
 	.align 4
 array_input:
 	.word 8			! Number of elements in the array
-	.word 7			! First element
-	.word 12		! Second element
-	.word 43 		! Third element
-	.word 11		! Fourth element
-	.word 76		! fifth element
-	.word 17		! sixth  element
-	.word 66		! seventh element
-	.word 5			! eighth element
+	.word 1			! First element
+	.word 2			! Second element
+	.word 3 		! Third element
+	.word 4			! Fourth element
+	.word 5			! fifth element
+	.word 6			! sixth  element
+	.word 7			! seventh element
+	.word 8			! eighth element
 
 ! ---------.bss---------------------
 ! the .bss section is used for data allocated (as zeroes) at run-time
