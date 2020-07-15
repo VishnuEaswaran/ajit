@@ -9,13 +9,19 @@ main:
     set heap, %g6           ! g6 --> pointer to heap
     mov 4, %g5              ! constant 4 for traversing memory 4 at a time
 
-    ld [%g7], 
-recurse:
+    ! initial values for first call
+    clr %g5                 ! count for recursion
+    mv %g7, %i4             ! make a copy to l7
+    ld [%i4], %i5           ! n: size of array
+    add %g5, %i4            ! go to first array element
 
-   call divide_store
+    call fft
+        nop
+
+    call divide_store
         nop                 ! DELAY SLOT
 
-   call complex             ! call complex multiplication
+    call complex             ! call complex multiplication
         nop
     
     ret                     ! jumpl %i7+8, %g0
