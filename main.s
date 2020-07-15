@@ -11,17 +11,25 @@ main:
 
     ! initial values for first call
     clr %g5                 ! count for recursion
-    mv %g7, %i4             ! make a copy to l7
-    ld [%i4], %i5           ! n: size of array
-    add %g5, %i4            ! go to first array element
+    mov %g7, %o4            ! make a copy to l7
+    ld [%o4], %o5           ! n: size of array
+    add %g5, %o4, %o4       ! go to first array element
+    mov %g6, %o3
 
-    call fft
-        nop
+fft_main:
 
     call divide_store
         nop                 ! DELAY SLOT
 
-    call complex             ! call complex multiplication
+    ! even recursion
+    call fft_main
+        nop
+    ! odd recursion
+    add  16, %o4, %o4       ! move ahead by 4 elements
+    call fft_main
+        nop
+
+    !call complex            ! call complex multiplication
         nop
     
     ret                     ! jumpl %i7+8, %g0
