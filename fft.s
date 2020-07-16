@@ -34,7 +34,8 @@ PI:
 	ldd	[%fp-8], %o0 		! Load that double word in Windowed register as required by sin function
 
 
-  call sin, 0
+  call sin, %o0 
+  call cos, %o0
 	nop
 
 	fmovs	%f0, %f8 	! To transfer a multiple-precision value between f registers, 
@@ -53,7 +54,8 @@ PI:
 	std	%f12, [%fp-24]   		! Store this double word to memory
 	ldd	[%fp-24], %o1 		! Load that double word in Windowed register as required by sin function
 
-  call sin, 0
+  call sin, %o1
+  call cos, %o1
 	nop
 
 	fmovs	%f0, %f11 	! To transfer a multiple-precision value between f registers, 
