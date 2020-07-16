@@ -67,10 +67,19 @@ PI:
 
 !!!! For 3PI/4
 
-	st %i3, [%fp-32]
-	ld [%fp-32], %f7
-	fitos %f7, %f7 			! Convert integer value "2" to floating point representation
-	fdivs %f8, %f7, %f8 	! %f8 = PI / 2
+	st %i3, [%fp-48]
+	ld [%fp-48], %f15
+	fitos %f15, %f15 			! Convert integer value "3" to floating point representation
+	fmul %f15, %f12, %f15 	! multiply 3(floating) with pi/4(floating)
+
+  fstod	%f15, %f15 		! Convert single precison to double precision as required for sinfunction
+	std	%f15, [%fp-24]   		! Store this double word to memory
+	ldd	[%fp-40], %o2 		! Load that double word in Windowed register as required by sin function
+
+  call sin, %o2
+  call cos, %o2
+	nop
+
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	fstod	%f8, %f8 		! Convert single precison to double precision as required for sin function
