@@ -38,8 +38,11 @@ PI:
 
 .stage1:
 ! F(0) = x(0) + w20*x(1)
-	fmuls %f31, %(sp- 258), %f31 
-	fstoi %f31, %g4
+	ld [%i4], %g4
+	ld [%i4+4], %g5
+	fmuls %f31, %g5, %f31 
+	fstoi %f31, %g5
+	add %g4, %g5, %g4
 ! F(1) = x(0) - w20*x(1)
 
 .stage2:
