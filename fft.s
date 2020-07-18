@@ -2,11 +2,18 @@
 !
 
 .section ".data"! for calculations of twiddle factor
-.global Nvar
 .align 4
 w20: .word 1
+w21: .word 0xbf800000  !-1 = 0xbf800000 
 w40: .word 1
-w80: .word 1
+w41_R: .word 0
+w41_I: .word 0xbf800000 !-j
+w80: .word 1 !
+w81_R: .word 0x3f34fdf4 ! +0.707 in float as HEX
+w81_I: .word 0xbf34fdf4 ! -0.707 in float as HEX
+w82: .word 0xbf800000 !-1
+w83_I: .word 0x3f34fdf4 ! +0.707 in float as HEX
+w83_R:.word 0xbf34fdf4 ! -0.707 in float as HEX
 
 .section ".data"
 .align 4
@@ -14,14 +21,30 @@ w80: .word 1
 PI:
 .single 3.14159265358979323846
 
+.section ".text"
 ! Load PI to %f8
 	set PI, %o1 
-	ld [%o1], %f8 
-! -----------------------------------------------
+	ld [%o1], %f8
+	! -----------------------------------------------
 	! Set constant "2" to %f7 through memory
 	set 2, %i5
-  set 4, %i4
-  set 3, %i3
+  	set 4, %i4
+  	set 3, %i3
+
+
+.stage1:
+! F(0) = x(0) + w20*x(1)
+! F(1) = x(0) - w20*x(1)
+
+.stage2:
+! G(2) = x(0) + w20*x(1)
+! G(3) = x(0) + w20*x(1)
+! G(4) = x(0) + w20*x(1)
+! G(5) = x(0) + w20*x(1)
+
+.stage3:
+		
+.fft_main:
 
 !!!! For PI/2
 	st %i5, [%fp-16]
@@ -34,11 +57,11 @@ PI:
 	ldd	[%fp-8], %o0 		! Load that double word in Windowed register as required by sin function
 
 
-  call sin, %o0 
-  call cos, %o0
+  	call sin, 0 
+  	call cos, 0
 	nop
 
-	fmovs	%f0, %f8 	! To transfer a multiple-precision value between f registers, 
+	fmovs	%f0, %f8 	! To transfer a multiple-precision value between f registers,  contains half
 	fmovs	%f1, %f9 	! one FMOVs instruction is required per word to be transferred.
 	fdtos	%f8, %f8
 	fstoi	%f8, %f10
@@ -54,8 +77,8 @@ PI:
 	std	%f12, [%fp-24]   		! Store this double word to memory
 	ldd	[%fp-24], %o1 		! Load that double word in Windowed register as required by sin function
 
-  call sin, %o1
-  call cos, %o1
+  call sin, 0
+  call cos, 0
 	nop
 
 	fmovs	%f0, %f11 	! To transfer a multiple-precision value between f registers, 
@@ -70,14 +93,14 @@ PI:
 	st %i3, [%fp-48]
 	ld [%fp-48], %f15
 	fitos %f15, %f15 			! Convert integer value "3" to floating point representation
-	fmul %f15, %f12, %f15 	! multiply 3(floating) with pi/4(floating)
+	fmuls %f15, %f12, %f15 	! multiply 3(floating) with pi/4(floating)
 
-  fstod	%f15, %f15 		! Convert single precison to double precision as required for sinfunction
+  	fstod	%f15, %f15 		! Convert single precison to double precision as required for sinfunction
 	std	%f15, [%fp-24]   		! Store this double word to memory
 	ldd	[%fp-40], %o2 		! Load that double word in Windowed register as required by sin function
 
-  call sin, %o2
-  call cos, %o2
+  call sin, 0
+  call cos, 0
 	nop
 
 
@@ -89,4 +112,5 @@ PI:
 
 
 
-twiddle:
+
+
