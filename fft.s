@@ -25,6 +25,10 @@ PI:
 ! Load PI to %f8
 	set PI, %o1 
 	ld [%o1], %f8
+	set w20, %o2
+	ld [%o2], %g4
+	fitos %g4, %f31 ! w20 stored in f31 register
+	
 	! -----------------------------------------------
 	! Set constant "2" to %f7 through memory
 	set 2, %i5
@@ -34,13 +38,12 @@ PI:
 
 .stage1:
 ! F(0) = x(0) + w20*x(1)
+	fmuls %f31, %(sp- 258), %f31 
+	fstoi %f31, %g4
 ! F(1) = x(0) - w20*x(1)
 
 .stage2:
-! G(2) = x(0) + w20*x(1)
-! G(3) = x(0) + w20*x(1)
-! G(4) = x(0) + w20*x(1)
-! G(5) = x(0) + w20*x(1)
+
 
 .stage3:
 		
