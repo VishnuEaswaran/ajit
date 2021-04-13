@@ -1,8 +1,6 @@
+==========
 Ajit Linux
-===========
-
-Introduction
-============
+==========
 
 The goal is to build a Linux system based on a ram-based filesystem.
 Running out of volatile memory has got advantages and disadvantages. Volatility leads to loss of data once the system is shutdown, but runtime 
@@ -14,12 +12,12 @@ Linux systems and how we implement it in Ajit-linux.
 
 Version details of related components are as follows
 
-	Linux kernel: 3.16.1
-	Buildroot: buildroot-2014.08
-	GCC: 4.7.x
-	gdb: 7.6.x 
-	uClibc C library: 0.9.33.x
-	binutils: 2.22
+    - Linux kernel: 3.16.1
+    - Buildroot: buildroot-2014.08
+    - GCC: 4.7.x
+    - gdb: 7.6.x 
+    - uClibc C library: 0.9.33.x
+    - binutils: 2.22
 
 The RAM based Filesystems
 =========================
@@ -56,19 +54,21 @@ initramfs
 ---------
 
 initramfs was introduced in 2.6. All 2.6 Linux kernels contain a gzipped “cpio” format archive, which is extracted into rootfs when the kernel boots up. After extracting, the kernel checks to see if rootfs contains a file “init”, and if so it executes it as PID 1.
-	- the initramfs archive is linked into the Linux kernel image.
-	- initramfs archive is a gzipped cpio archive, for which the kernel has extraction code.
-	- init program from initramfs is not expected to return to the kernel while initrd used to.
-	- initramfs is rootfs: you can neither pivot_root rootfs, nor unmount it.
+
+    - the initramfs archive is linked into the Linux kernel image.
+    - initramfs archive is a gzipped cpio archive, for which the kernel has extraction code.
+    - init program from initramfs is not expected to return to the kernel while initrd used to.
+    - initramfs is rootfs: you can neither pivot_root rootfs, nor unmount it.
 
 Buildroot
 =========
  
 Ajit_linux at present runs indefinitely out of initramfs. We need to change to a boot process which mounts a separate rootfs and then switches to that, for future proofing the development. Existing build tool, Buildroot, can be used for this, and we need to build twice in the process
-	- once for creating just the final rootfs 
-	- second for creating the appropriate initramfs and kernel.
+	
+    - once for creating just the final rootfs 
+    - second for creating the appropriate initramfs and kernel.
 
-Required changes have have been made to GeneratememMapForAjit.sh fot the same.
+Required changes have have been made to GeneratememMapForAjit.sh for the same.
 
 Tests
 =====
@@ -78,11 +78,11 @@ Tests
 References
 ==========
 
-	- Linux kernel documentation(latest): https://www.kernel.org/doc/html/latest/
-	- initrd: https://www.kernel.org/doc/html/latest/admin-guide/initrd.html
-	- ramfs,rootfs & initramfs kernel doc: https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-initramfs.html
-	- forversion 3.16.1: https://elixir.bootlin.com/linux/v3.16.1/source/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-	- Buildroot manual: https://buildroot.org/downloads/manual/manual.html
-	- ramfs from debian wiki: https://wiki.debian.org/ramfs
-	- initramfs from debian wiki: https://wiki.debian.org/initramfs
-	- linux kernel debugging: https://www.youtube.com/watch?v=NDXYpR_m1CU
+    - `Linux kernel documentation(latest) <https://www.kernel.org/doc/html/latest/>`_
+    - `initrd <https://www.kernel.org/doc/html/latest/admin-guide/initrd.html>`_
+    - `ramfs,rootfs & initramfs kernel doc <https://www.kernel.org/doc/html/latest/filesystems/ramfs-rootfs-initramfs.html>`_
+    - `for version 3.16.1 <https://elixir.bootlin.com/linux/v3.16.1/source/Documentation/filesystems/ramfs-rootfs-initramfs.txt>`_
+    - `Buildroot manual <https://buildroot.org/downloads/manual/manual.html>`_
+    - `ramfs from debian wiki <https://wiki.debian.org/ramfs>`_
+    - `initramfs from debian wiki <https://wiki.debian.org/initramfs>`_
+    - `Linux kernel debugging <https://www.youtube.com/watch?v=NDXYpR_m1CU>`_
